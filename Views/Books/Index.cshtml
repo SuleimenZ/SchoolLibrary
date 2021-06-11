@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SchoolLibrary.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a asp-action="Create">Create New</a>
+    }
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.NextSortOrder, sortItem = "name"})
+            </th>
+            <th>
+                @Html.ActionLink("Price", "Index", new { sortOrder = ViewBag.NextSortOrder, sortItem = "price"})
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.id">Details</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a>| </a> <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
+                    <a>| </a> <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
